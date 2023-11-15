@@ -1,1 +1,1 @@
-# elicited-imitation
+# Elicited Imitation

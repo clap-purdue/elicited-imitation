@@ -1,0 +1,27 @@
+# https://www.mkdocs.org/user-guide/writing-your-docs/
+site_name: elicited-imitation
+#site_url: "https://elsayed-issa.github.io/elicited-imitation-attempt/"
+site_description: Project documentation with Markdown.
+site_author: Elsayed Issa
+
+repo_url: https://github.com/clap-purdue/elicited-imitation
+edit_uri: "blob/main/docs/"
+
+theme:
+  name: readthedocs
+  locale: en
+  highlightjs: true
+  hljs_style: github
+  hljs_languages:
+    - yaml
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Documentation: documentation.md
+  - Tutorials: tutorial.md
+  - API: api.md
+  - Contribution: contribution.md
+
+
+copyright: Copyright &copy; 2023 <a href="https://github.com/clap-purdue">Computational Linguistics @ Purdue </a>, Maintained by the <a href="/about/release-notes/#maintenance-team">MkDocs Team</a>.
