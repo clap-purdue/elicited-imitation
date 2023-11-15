@@ -20,32 +20,7 @@ from ei.asr import WhisperModel, normalize, read_data
 from ei.utils import word_level_edit_distance, visualize_matrix
 
 
-# def transcribe(language_id: Text, audio: Text):
-#     """endpoint to transcribe audio"""
-#     files = {'file': open(audio, 'rb')}
-
-#     # host = _get_host(node="speech")
-
-#     # if host:
-#     response = requests.post(f"http://speech:8080/api/query_whisper", files=files)
-#     results = response.json()
-#     return results['audio']
-#     # else:
-#     #     logging.error("Speech backend not on network or local host. In network the host should be set to 'speech'.")
-
-
 def streamlit_ui():
-    """
-    The UI logic:
-    # (1) load whisper
-    # (2) load translation
-    # (3) record
-    # (4) transcribe
-    # (5) translate to English
-    # (6) query NS
-    # (7) Expect English Answer
-    """
-
     components.html(
         """
                 <div style="background-color:#475e5f;padding:10px;">
@@ -80,14 +55,8 @@ def streamlit_ui():
     st.audio(audio_file)
     st.write("FOR DEBUGGING==>", gold)
 
-    # Now record your self
-    # (3) record
     st.subheader("2. Record Your Speech")
-    # if st.button("ASK"):
-    # with st.spinner('Please record ...'):
-    # sound=Sound("./")
-    # sound.record_audio()
-    # recorder.record_to_file("./WAVE_FILE.wav")
+
     audio_bytes = audio_recorder(pause_threshold=2.0)
     if audio_bytes:
         st.subheader("3. Your Speech! - FOR DEBUGGING")
@@ -104,10 +73,6 @@ def streamlit_ui():
         audio_file = "./WAVE_FILE.wav"
         st.subheader("4. Your Speech Transcribed")
         with st.spinner("Please wait ... generating the transcription "):
-            # if st.session_state.load_models == True:
-            #     transcription = transcribe(args.language_id, audio_file)
-            # else:
-            #     transcription = transcribe(args.language_id, audio_file)
             transcript = speech_model.transcribe(audio_file)
         st.write(transcript)
 
@@ -117,88 +82,7 @@ def streamlit_ui():
     # Next button to advance to the next audio/transcript
     if st.button("Next Audio"):
         st.session_state.index = (st.session_state.index + 1) % len(dataset)
-    # k_retriever = st.sidebar.slider("No. of documents", min_value=1, max_value=20, value=10, step=1)
 
-    # if 'load_models' not in st.session_state:
-    #     st.session_state.load_models = False
-
-    # # (1) load whisper (2) load translation
-    # if st.session_state.load_models == False:
-    #     st.subheader("Whisper ASR Model")
-    #     with st.spinner("Loading Whisper ASR model ..."):
-    #         # whisper_model = load_whisper(args.language_id)
-    #         st.success("Whisper ASR model loaded successfully")
-
-    #     st.subheader("Helsinki Translation Model")
-    #     with st.spinner("Loading Helsinki translation model ..."):
-    #         # translation_model = "..." # load_translation(args.language_id)
-    #         st.success("Helsinki translation model loaded successfully")
-
-    #     # (3) record
-    #     st.subheader("Ask Your Question")
-    #     # if st.button("ASK"):
-    #         # with st.spinner('Please record ...'):
-    #             # sound=Sound("./")
-    #             # sound.record_audio()
-    #             # recorder.record_to_file("./WAVE_FILE.wav")
-    #     audio_bytes = audio_recorder(pause_threshold=2.0)
-    #     if audio_bytes:
-    #         st.audio(audio_bytes, format="audio/wav")
-    #         # FIXME: Can we depend on writing to container in deployment?
-    #         with open("WAVE_FILE.wav", "wb") as f:
-    #             f.write(audio_bytes)
-
-    #         st.success('Audio recorded successfully')
-
-    #         # (4) transcribe
-    #         # audio_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "WAVE_FILE.wav")
-    #         audio_file = "./WAVE_FILE.wav"
-    #         st.subheader("Your Question")
-    #         with st.spinner("Please wait ... generating the transcription "):
-    #             # if st.session_state.load_models == True:
-    #             #     transcription = transcribe(args.language_id, audio_file)
-    #             # else:
-    #             #     transcription = transcribe(args.language_id, audio_file)
-    #             transcription = transcribe(args.language_id, audio_file)
-    #         st.write(transcription)
-
-    #         # (5) translate to English
-    #         if args.language_id != 'en':
-    #             st.subheader("Your Question in English")
-    #             with st.spinner("Translating your question to English..."):
-    #                 translation = translate(text=transcription)
-    #             st.write(translation)
-    #         else:
-    #             translation = transcription
-
-    #         # (6) query NS
-    #         st.subheader("Your Answer")
-    #         with st.spinner("Finding an answer..."):
-    #             predictions = predict(query=translation, k_retriever=k_retriever)
-    #             for result in predictions:
-    #                 col1,col2 = st.columns([3,1])
-    #                 with col1:
-    #                     annotated_text(("Document:", '', "#8ef"))
-    #                     st.write(result['doc'])
-    #                 with col2:
-    #                     annotated_text(("Score:", '', "#8ef"))
-    #                     st.write(result['score']*100)
-
-
-# def main():
-#     """main function for adding any args external args to streamlit
-#     Args must be used with a click as follows:
-#     streamlit run system-demo-ui.py -- --language_id "en"
-
-#     according to this post:
-#     https://github.com/streamlit/streamlit/issues/337
-#     """
-#     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description='add some args to streamlit')
-#     parser.add_argument('--language_id', dest="language_id", type=Text, help="language id")
-#     parser.set_defaults(verbose=False)
-#     args = parser.parse_args()
-
-#     return streamlit_ui(args)
 
 if __name__ == "__main__":
     streamlit_ui()
