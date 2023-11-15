@@ -1,6 +1,6 @@
 # https://www.mkdocs.org/user-guide/writing-your-docs/
 site_name: elicited-imitation
-site_url: "https://clap-purdue.github.io/elicited-imitation/index.html"
+site_url: "https://clap-purdue.github.io/elicited-imitation/"
 site_description: Project documentation with Markdown.
 site_author: Elsayed Issa
 
