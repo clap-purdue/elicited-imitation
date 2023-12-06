@@ -1,6 +1,6 @@
 # Tutorial
 
-1. **Prepare the dataset:**
+**Prepare the dataset:**
 
 - The dataset should be one folder that contains the audio files and a csv file that has two columns `audio` and `transcript`. Of course, the csv file can contain any other columns, but the `audio` and `transcript` columns should be present.
 
@@ -19,7 +19,7 @@ from ei.japanese import ElicitedImitation
 from ei.utils import plot
 ```
 
-2. **Prepare the configuration:**
+**Prepare the configuration:**
 
 - path to the audio dataset.
 - name of the `csv` file.
@@ -31,25 +31,25 @@ from ei.utils import plot
 config = Config(path="~/Desktop/japanese", tsv_file="japanese-data.csv", checkpoint="openai/whisper-large-v3", language="ja", save_dir="~/Desktop")
 ```
 
-3. **Intialize the `ElicitedImitation` class:**
+**Intialize the `ElicitedImitation` class:**
 
 ```python
 x = ElicitedImitation(config)
 ```
 
-4. **Get the results:**
+**Get the results:**
 
 ```python
 z = x.get_ei_results()
 ```
 
-5. **Plot results:**
+**Plot results:**
 
 ```python
 plot(z, config.save_dir)
 ```
 
-6. **Save result:**
+**Save result:**
 
 ```python
 z.to_csv(os.path.join(config.save_dir, "NAME.csv"))
