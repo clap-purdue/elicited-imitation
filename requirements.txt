@@ -8,3 +8,4 @@ mecab-python3
 streamlit
 audio-recorder-streamlit
 st-annotated-text
+matplotlib
