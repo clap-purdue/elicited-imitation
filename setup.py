@@ -7,8 +7,8 @@ with open(os.path.join(os.path.dirname(__file__), "ei", "VERSION")) as version_f
     version = version_file.read().strip()
 
 # readme
-with open(os.path.join(os.path.dirname(__file__), "README.md"), "r") as readme_file:
-    readme_description = readme_file.read().strip()
+# with open(os.path.join(os.path.dirname(__file__), "README.md"), "r") as readme_file:
+#     readme_description = readme_file.read().strip()
 
 # requirements
 with open(os.path.join(os.path.dirname(__file__), "requirements.txt"), "r") as f:
@@ -31,7 +31,7 @@ setup(
     version=version,
     author="elsayed-issa",
     description=description,
-    long_description=readme_description,
+    #long_description=readme_description,
     keywords=["elicited", "imitation", "ei", "speech", "japanese", "english"],
     packages=["ei"],
     install_requires=required,

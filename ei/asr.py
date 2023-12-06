@@ -5,8 +5,6 @@ import torch
 import librosa
 from transformers import pipeline, AutoConfig
 import os
-import torchaudio
-import torchaudio.functional as T
 import numpy as np
 import pandas as pd
 import torch
@@ -29,20 +27,20 @@ def read_data(abs_path, csv_file):
     return dataset
 
 
-class AudioReader:
-    """
-    a class that has a static method `read_audio(audio)` that converts speech to `np.ndarray`
-    using either `torchaudio` or `librosa`
-    """
+# class AudioReader:
+#     """
+#     a class that has a static method `read_audio(audio)` that converts speech to `np.ndarray`
+#     using either `torchaudio` or `librosa`
+#     """
 
-    @staticmethod
-    def read_audio(audio: Text) -> np.ndarray:
-        try:
-            audio, sampling_rate = torchaudio.load(audio)
-            audio = T.resample(audio, sampling_rate, 16_000)[0]
-        except:
-            audio, _ = librosa.load(audio, sr=16_000)
-        return audio
+#     @staticmethod
+#     def read_audio(audio: Text) -> np.ndarray:
+#         try:
+#             audio, sampling_rate = torchaudio.load(audio)
+#             audio = T.resample(audio, sampling_rate, 16_000)[0]
+#         except:
+#             audio, _ = librosa.load(audio, sr=16_000)
+#         return audio
 
 
 class WhisperModel:
