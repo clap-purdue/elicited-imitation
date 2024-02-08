@@ -9,3 +9,4 @@ streamlit
 audio-recorder-streamlit
 st-annotated-text
 matplotlib
+openpyxl

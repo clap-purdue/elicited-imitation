@@ -17,6 +17,7 @@ data/
 from ei.config import Config
 from ei.japanese import ElicitedImitation
 from ei.utils import plot
+import pandas as pd
 import os
 ```
 
@@ -50,8 +51,9 @@ z = x.get_ei_results()
 plot(z, config.save_dir)
 ```
 
-**Save result to Excel file:**
+**Convert dataset to pandas dataframe and save to an excel file:**
 
 ```python
-z.to_excel(os.path.join(config.save_dir, "NAME..xlsx"))
+df = pd.DataFrame(z)
+df.to_excel(os.path.join(config.save_dir, "NAME.xlsx"))
 ```

@@ -1,6 +1,7 @@
 from ei.config import Config
 from ei.japanese import ElicitedImitation
 from ei.utils import plot
+import pandas as pd
 import os
 
 
@@ -24,5 +25,6 @@ if __name__ == '__main__':
     z = x.get_ei_results()
     # plot your results (Optional step)
     plot(z, config.save_dir)
-    # Save to an excel file
-    z.to_excel(os.path.join(config.save_dir, "NAME..xlsx"))
+    # Convert dataset to pandas dataframe and save to an excel file
+    df = pd.DataFrame(z)
+    df.to_excel(os.path.join(config.save_dir, "NAME.xlsx"))
