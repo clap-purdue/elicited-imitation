@@ -17,6 +17,7 @@ data/
 from ei.config import Config
 from ei.japanese import ElicitedImitation
 from ei.utils import plot
+import os
 ```
 
 **Prepare the configuration:**
@@ -49,8 +50,8 @@ z = x.get_ei_results()
 plot(z, config.save_dir)
 ```
 
-**Save result:**
+**Save result to Excel file:**
 
 ```python
-z.to_csv(os.path.join(config.save_dir, "NAME.csv"))
+z.to_excel(os.path.join(config.save_dir, "NAME.csv"))
 ```
