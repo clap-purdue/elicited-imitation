@@ -29,7 +29,7 @@ dev_deps = test_deps + [
 setup(
     name="ei",
     version=version,
-    author="elsayed-issa",
+    author="elsayed-issa, yancong222, afukada, Ayaakaaa",
     description=description,
     #long_description=readme_description,
     keywords=["elicited", "imitation", "ei", "speech", "japanese", "english"],
