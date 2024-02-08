@@ -53,5 +53,5 @@ plot(z, config.save_dir)
 **Save result to Excel file:**
 
 ```python
-z.to_excel(os.path.join(config.save_dir, "NAME.csv"))
+z.to_excel(os.path.join(config.save_dir, "NAME..xlsx"))
 ```
