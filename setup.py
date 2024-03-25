@@ -4,7 +4,7 @@ from setuptools import setup
 
 # version
 with open(os.path.join(os.path.dirname(__file__), "ei", "VERSION")) as version_file:
-    version = version_file.read().strip()
+    VERSION = version_file.read().strip()
 
 # readme
 # with open(os.path.join(os.path.dirname(__file__), "README.md"), "r") as readme_file:
@@ -28,7 +28,7 @@ dev_deps = test_deps + [
 
 setup(
     name="ei",
-    version=version,
+    version=VERSION,
     author="elsayed-issa, yancong222, afukada, Ayaakaaa",
     description=description,
     #long_description=readme_description,
