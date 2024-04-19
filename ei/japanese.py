@@ -96,14 +96,14 @@ class JapaneseEI(Language):
         target = batch['student_transcript']
         if self.config.metric == "needlemanwunsch":
             score = Metrics.needleman_wunsch(source, target)
-            batch['accuracy'] = len(source.split()) - abs(score)
+            batch['accuracy'] = score
             return batch
         elif self.config.metric == "smithwaterman":
             score = Metrics.smith_waterman(source, target)
-            batch['accuracy'] = len(source.split()) - abs(score)
+            batch['accuracy'] = score
         elif self.config.metric == "editdistance":
             score = Metrics.edit_distance(source, target)
-            batch['accuracy'] = len(source.split()) - abs(score)
+            batch['accuracy'] = score
             return batch
     
     def get_ei_results(self) -> Dataset:

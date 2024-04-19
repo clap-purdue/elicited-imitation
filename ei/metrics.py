@@ -31,8 +31,14 @@ class Metrics:
         alignment = needle.NeedlemanWunsch(str1.split(), str2.split())
         alignment.gap_character = "-"
         alignment.align()
-        return alignment.get_score()
+        a1, a2 = alignment.get_aligned_sequences()
+        res = []
+        for x1, x2 in zip(a1,a2):
+            res.append(((x1, x2), 1 if x1 == x2 else 0))
+        score = [i[1] for i in res]
+        return sum(score)
 
+    
     @staticmethod
     def smith_waterman(str1: str, str2: str) -> int:
         """
@@ -43,7 +49,12 @@ class Metrics:
         alignment = smith.SmithWaterman(str1.split(), str2.split())
         alignment.gap_character = "-"
         alignment.align()
-        return alignment.get_score()
+        a1, a2 = alignment.get_aligned_sequences()
+        res = []
+        for x1, x2 in zip(a1,a2):
+            res.append(((x1, x2), 1 if x1 == x2 else 0))
+        score = [i[1] for i in res]
+        return sum(score)
     
     @staticmethod
     def edit_distance(str1:str, str2:str) -> int:
