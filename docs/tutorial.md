@@ -15,7 +15,7 @@ data/
 
 ```python
 from ei.config import Config
-from ei.japanese import ElicitedImitation
+from ei.engine import ElicitedImitation
 from ei.utils import plot
 import pandas as pd
 import os
@@ -28,9 +28,18 @@ import os
 - name of whisper checkpoint.
 - name of the language.
 - path to the output folder
+- name of the metric (needlemanwunsch, smithwaterman, editdistance)
 
 ```python
-config = Config(path="~/Desktop/japanese", tsv_file="japanese-data.csv", checkpoint="openai/whisper-large-v3", language="ja", save_dir="~/Desktop")
+config = Config(
+   audio_data_path="~/Desktop/japanese", 
+   transcript_file="japanese-data.csv", 
+   asr_checkpoint="openai/whisper-large-v3", 
+   language="ja", 
+   save_dir="~/Desktop",
+   metric="needlemanwunsch",
+   device="cuda"
+   )
 ```
 
 **Intialize the `ElicitedImitation` class:**
@@ -42,7 +51,7 @@ x = ElicitedImitation(config)
 **Get the results:**
 
 ```python
-z = x.get_ei_results()
+z = x.perform_elicited_imitation()
 ```
 
 **Plot results:**

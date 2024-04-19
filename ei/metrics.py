@@ -1,9 +1,73 @@
 # -*- coding: utf-8 -*-
-import streamlit as st
+from minineedle import needle, smith
+from Levenshtein import distance
+import librosa
+import torchaudio
+import torchaudio.transforms as T
 import numpy as np
 
+__all__ = ["Metrics"]
+
+class Metrics:
+    """
+    This class include metrics that can be used to compute Elicited Imitation.
+
+    1. Needleman-Wunsch
+    2. Smith Waterman
+    3. Edit Distance
+    4. MFCCs 
+    5. Semantic Similarity
+    """
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def needleman_wunsch(str1: str, str2: str) -> int:
+        """
+        Needleman-Wunsch algorithm Approach
+        # NOTE: see implementation:
+        https://github.com/scastlara/minineedle
+        """
+        alignment = needle.NeedlemanWunsch(str1.split(), str2.split())
+        alignment.gap_character = "-"
+        alignment.align()
+        return alignment.get_score()
+
+    @staticmethod
+    def smith_waterman(str1: str, str2: str) -> int:
+        """
+        Smith Waterman algorithm Approach
+        # NOTE: see implementation:
+        https://github.com/scastlara/minineedle
+        """
+        alignment = smith.SmithWaterman(str1.split(), str2.split())
+        alignment.gap_character = "-"
+        alignment.align()
+        return alignment.get_score()
+    
+    @staticmethod
+    def edit_distance(str1:str, str2:str) -> int:
+        """
+        An Edit Distance Approach
+        # NOTE: see this implemetation:
+        https://rapidfuzz.github.io/Levenshtein/levenshtein.html#distance
+
+        # NOTE: the use of mecab renders more distances
+        """
+        return distance(str1, str2)
+
+    def sentence_similarity():
+        """
+        SentenceBert Approach
+        """
+        pass
+    
+   
 
 class NeedlemanWunsch:
+    """
+    An old implementation of NeedlemanWunsch we are no longer using.
+    """
     def __init__(self):
         pass
 
@@ -54,86 +118,3 @@ class NeedlemanWunsch:
         accuracy = (matching_words / len(original_words)) * 100
         scaled_accuracy= round(accuracy / 10)
         return accuracy, scaled_accuracy, matching_words, len(original_words)
-
-
-
-
-
-class EditDistance:
-    """
-    An Edit Distance Approach
-    """
-
-    pass
-
-
-class ElicitedImitation:
-    """
-    An Needleman-Wunsch algorithm Approach
-    """
-
-    pass
-
-
-class SentenceSimilarity:
-    """
-    SentenceBert Approach
-    """
-
-    pass
-
-
-# def word_level_edit_distance(s1, s2):
-#     words1, words2 = s1.split(), s2.split()
-#     m, n = len(words1), len(words2)
-#     dp = np.zeros((m + 1, n + 1), dtype=int)
-
-#     for i in range(m + 1):
-#         for j in range(n + 1):
-#             if i == 0:
-#                 dp[i][j] = j
-#             elif j == 0:
-#                 dp[i][j] = i
-#             elif words1[i - 1] == words2[j - 1]:
-#                 dp[i][j] = dp[i - 1][j - 1]
-#             else:
-#                 dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
-
-#     visualize_matrix(dp, words1, words2)
-#     return dp[m][n]
-
-
-# def visualize_matrix(matrix, words1, words2):
-#     fig, ax = plt.subplots()
-#     cax = ax.matshow(matrix, cmap="viridis_r")
-
-#     ax.set_xticklabels([""] + words1, rotation=45)
-#     ax.set_yticklabels([""] + words2)
-#     ax.xaxis.set_major_locator(plt.MultipleLocator(1))
-#     ax.yaxis.set_major_locator(plt.MultipleLocator(1))
-
-#     for (i, j), z in np.ndenumerate(matrix):
-#         ax.text(
-#             j,
-#             i,
-#             f"{z}",
-#             ha="center",
-#             va="center",
-#             bbox=dict(boxstyle="round", facecolor="white", edgecolor="0.3"),
-#         )
-
-#     plt.xlabel("Transcript")
-#     plt.ylabel("Gold Standard")
-#     plt.title("Edit Distance Matrix")
-#     plt.colorbar(cax)
-#     st.pyplot(fig)
-
-# if __name__ == "__main__":
-
-#     gold = "she had your dark suit in greasy washwater all year."
-#     transcript = "she had your dark suit"
-#     n = NeedlemanWunsch()
-#     n.align_sequences(gold, transcript)
-
-    # word_dist = word_level_edit_distance(transcript, gold)
-    # print(f"Word-level edit distance: {word_dist}")

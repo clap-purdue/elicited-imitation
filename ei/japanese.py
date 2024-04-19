@@ -4,35 +4,28 @@ import os
 import pandas as pd
 from datasets import Dataset
 import MeCab
+import torch
+
+from ei.config import Config, Language
 from ei.asr import WhisperModel
-from ei.config import Config
-from ei.metrics import NeedlemanWunsch
+from ei.metrics import Metrics
 
-n = NeedlemanWunsch()
+__all__ = ["JapaneseEI", "JapaneseUtils"]
 
-
-class JapaneseUtils:
-    """
-    `JapaneseUtils` contains methods for tagging and cleaning japanese.
-    """
-    @staticmethod
-    def mecab_tagger(text: Text) -> Text:
-        mecab = MeCab.Tagger("-Owakati")
-        return mecab.parse(text)
-
-    @staticmethod
-    def clean_text(text: Text) -> Text:
-        japanese_punctuation = "、。！？「」『』（）｛｝［］【】〈〉《》〔〕…‥・"
-        cleaned_text = ''.join(char for char in text if char not in japanese_punctuation)
-        return cleaned_text
-
-
-
-class ElicitedImitation(Config):
-    def __init__(self, config: Config, *args, **kwargs):
+class JapaneseEI(Language):
+    def __init__(self, config: Config) -> None:
         super().__init__(config)
         self.config = config
 
+        if config.device == "cuda":
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            if self.device:
+                print(f"Using {self.device}")
+        elif config.device == "mps":
+            self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+            if self.device:
+                print(f"Using {self.device}")
+        
     def read_custom_data(self) -> Dataset:
         """
         ei = ElicitedImitation(config)
@@ -44,8 +37,8 @@ class ElicitedImitation(Config):
             num_rows: 25
         })
         """
-        dataset = pd.read_csv(os.path.join(self.config.path, self.config.tsv_file))
-        dataset["path"] = self.config.path + "/" + dataset["audio"]
+        dataset = pd.read_csv(os.path.join(self.config.audio_data_path, self.config.transcript_file))
+        dataset["path"] = self.config.audio_data_path + "/" + dataset["audio"]
         hf_dataset = Dataset.from_pandas(dataset)
         return hf_dataset
     
@@ -67,13 +60,13 @@ class ElicitedImitation(Config):
             num_rows: 25
         })
             """
-        return self.read_custom_data().map(ElicitedImitation.mecab_processing)
+        return self.read_custom_data().map(JapaneseEI.mecab_processing)
     
     def asr_transcriptions(self, batch):
         """
         This method uses a whisper checkpoint and a language id to get the transcriptions for audio files.
         """
-        model = WhisperModel(self.config.checkpoint, self.config.language)
+        model = WhisperModel(self.config.asr_checkpoint, self.config.language, self.device)
         audio = batch['path']
         transcription = model.transcribe(audio).strip()
         transcription = JapaneseUtils.clean_text(transcription)
@@ -90,17 +83,51 @@ class ElicitedImitation(Config):
         """
         return self.apply_mecab().map(self.asr_transcriptions)
     
-    @staticmethod
-    def ei_results(batch):
+
+    def ei_results(self, batch):
         source = batch['mecab_gold']
         target = batch['student_transcript']
-        accuracy, scaled_accuracy, _, _ = n.elicited_imitation(source, target)
-        batch['accuracy'] = accuracy
-        batch['scaled_accuracy'] = scaled_accuracy
-        return batch
+        if self.config.metric == "needlemanwunsch":
+            score = Metrics.needleman_wunsch(source, target)
+            batch['accuracy'] = len(source.split()) - score
+            return batch
+        elif self.config.metric == "smithwaterman":
+            score = Metrics.smith_waterman(source, target)
+            batch['accuracy'] = len(source.split()) - score
+        elif self.config.metric == "editdistance":
+            score = Metrics.edit_distance(source, target)
+            batch['accuracy'] = len(source.split()) - score
+            return batch
     
     def get_ei_results(self) -> Dataset:
-        res = self.apply_asr_transcriptions().map(ElicitedImitation.ei_results)
+        res = self.apply_asr_transcriptions().map(self.ei_results)
         return res
         
 
+
+class JapaneseUtils:
+    """
+    `JapaneseUtils` contains methods for tagging and cleaning japanese.
+    """
+    @staticmethod
+    def mecab_tagger_owakati(text: Text) -> Text:
+        mecab = MeCab.Tagger("-Owakati")
+        return mecab.parse(text)
+
+    @staticmethod
+    def clean_text(text: Text) -> Text:
+        japanese_punctuation = "、。！？「」『』（）｛｝［］【】〈〉《》〔〕…‥・"
+        cleaned_text = ''.join(char for char in text if char not in japanese_punctuation)
+        return cleaned_text
+    
+    @staticmethod
+    def mecab_tagger(text: Text) -> Text:
+        mecab = MeCab.Tagger()
+        t = mecab.parse(text)
+        lines = t.split("\n")
+        retst = ""
+        for line in lines:
+            items = line.split("\t")
+            if len(items)>2:
+                retst += items[1] + " "
+        return retst

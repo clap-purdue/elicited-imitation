@@ -7,7 +7,7 @@ def plot(data, output_dir):
     plt.figure(figsize=(20, 10))
 
     plt.plot(data['audio'], data['score'], label='Score', marker='o')
-    plt.plot(data['audio'], data['scaled_accuracy'], label='Scaled Accuracy', marker='x')
+    plt.plot(data['audio'], data['accuracy'], label='Accuracy', marker='x')
 
     plt.title('Score vs Scaled Accuracy with Audio Names')
     plt.xlabel('Audio Sample')

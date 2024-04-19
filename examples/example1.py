@@ -1,5 +1,5 @@
 from ei.config import Config
-from ei.japanese import ElicitedImitation
+from ei.engine import ElicitedImitation
 from ei.utils import plot
 import pandas as pd
 import os
@@ -12,17 +12,19 @@ if __name__ == '__main__':
     # 3) name of the whisper speech model
     # 4) name of the language(i.e., "ja")
     # 5) path to the output directory
+    # 6) name of metric used (needlemanwunsch, smithwaterman, editdistance)
     config = Config(
         path="~/Desktop/japanese", 
         tsv_file="japanese-data.csv", 
         checkpoint="openai/whisper-large-v3", 
         language="ja", 
-        save_dir="~/Desktop"
+        save_dir="~/Desktop",
+        metric="needlemanwunsch"
         )
     # Declare the elicited imitation class
     x = ElicitedImitation(config)
     # Get results(if the data is big, you will need to wait until the speech engine gets the transcripts)
-    z = x.get_ei_results()
+    z = x.perform_elicited_imitation()
     # plot your results (Optional step)
     plot(z, config.save_dir)
     # Convert dataset to pandas dataframe and save to an excel file
