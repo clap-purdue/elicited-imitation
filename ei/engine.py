@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from ei.config import Config
 from ei.japanese import JapaneseEI
+from ei.chinese import ChineseEI
 
 
 __all__ = ["ElicitedImitation"]
@@ -13,8 +14,7 @@ class ElicitedImitation:
     def get_language(self):
         language_map = {
             'ja': JapaneseEI,
-            # 'ko': KoreamEI,
-            # 'ch': ChineseEI
+            'ch': ChineseEI
         }
         language_class = language_map.get(self.config.language)
         if not language_class:
