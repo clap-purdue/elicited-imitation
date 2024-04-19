@@ -12,19 +12,26 @@ from ei.metrics import Metrics
 
 __all__ = ["JapaneseEI", "JapaneseUtils"]
 
+
+
 class JapaneseEI(Language):
     def __init__(self, config: Config) -> None:
         super().__init__(config)
         self.config = config
+        self.device = self.get_device()
 
-        if config.device == "cuda":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-            if self.device:
-                print(f"Using {self.device}")
-        elif config.device == "mps":
-            self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-            if self.device:
-                print(f"Using {self.device}")
+    def get_device(self):
+        if self.config.device == "cuda":
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            if device:
+                print(f"Using {device}")
+        elif self.config.device == "mps":
+            device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+            if device:
+                print(f"Using {device}")
+        elif self.config.device is None:
+            print("Using cpu")
+
         
     def read_custom_data(self) -> Dataset:
         """
@@ -89,14 +96,14 @@ class JapaneseEI(Language):
         target = batch['student_transcript']
         if self.config.metric == "needlemanwunsch":
             score = Metrics.needleman_wunsch(source, target)
-            batch['accuracy'] = len(source.split()) - score
+            batch['accuracy'] = len(source.split()) - abs(score)
             return batch
         elif self.config.metric == "smithwaterman":
             score = Metrics.smith_waterman(source, target)
-            batch['accuracy'] = len(source.split()) - score
+            batch['accuracy'] = len(source.split()) - abs(score)
         elif self.config.metric == "editdistance":
             score = Metrics.edit_distance(source, target)
-            batch['accuracy'] = len(source.split()) - score
+            batch['accuracy'] = len(source.split()) - abs(score)
             return batch
     
     def get_ei_results(self) -> Dataset:

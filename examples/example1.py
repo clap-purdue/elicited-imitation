@@ -14,12 +14,13 @@ if __name__ == '__main__':
     # 5) path to the output directory
     # 6) name of metric used (needlemanwunsch, smithwaterman, editdistance)
     config = Config(
-        path="~/Desktop/japanese", 
-        tsv_file="japanese-data.csv", 
-        checkpoint="openai/whisper-large-v3", 
+        audio_data_path="~/Desktop/japanese", 
+        transcript_file="japanese-data.csv", 
+        asr_checkpoint="openai/whisper-large-v3", 
         language="ja", 
         save_dir="~/Desktop",
-        metric="needlemanwunsch"
+        metric="needlemanwunsch",
+        device="cuda"
         )
     # Declare the elicited imitation class
     x = ElicitedImitation(config)
