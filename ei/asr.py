@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import torchaudio.transforms as T
 from transformers import pipeline, AutoConfig
 
 
-__all__  = ["AudioReader", "WhisperModel"]
+__all__  = ["WhisperModel"]
 
 
 class WhisperModel:
@@ -36,4 +35,6 @@ class WhisperModel:
 
     def transcribe(self, audio: str) -> str:
         return self.get_transcription(audio)["text"]
-    
+
+
+

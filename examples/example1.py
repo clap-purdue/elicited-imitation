@@ -20,6 +20,7 @@ if __name__ == '__main__':
         language="ja", 
         save_dir="~/Desktop",
         metric="needlemanwunsch",
+        mecab="Owakati",
         device="cuda"
         )
     # Declare the elicited imitation class

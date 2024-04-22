@@ -29,6 +29,8 @@ import os
 - name of the language.
 - path to the output folder
 - name of the metric (needlemanwunsch, smithwaterman, editdistance)
+- mecab (Owakati or Non-Owakati)
+- device (cuda, cpu, mps)
 
 ```python
 config = Config(
@@ -38,6 +40,7 @@ config = Config(
    language="ja", 
    save_dir="~/Desktop",
    metric="needlemanwunsch",
+   mecab="Owakati",
    device="cuda"
    )
 ```

@@ -16,6 +16,7 @@ class Config:
         language="ja", 
         save_dir="~/Desktop",
         metric="needlemanwunsch",
+        mecab="Owakati",
         device="cuda"
     )
     """
@@ -25,6 +26,7 @@ class Config:
     language: Optional[str] = None
     save_dir: Optional[str] = None
     metric: Optional[str] = None
+    mecab: Optional[str] = None
     device: Optional[str] = None
 
     @classmethod
@@ -43,9 +45,6 @@ class Config:
             return config, unused_kwargs
         else:
             return config
-
-
-
 
 
 

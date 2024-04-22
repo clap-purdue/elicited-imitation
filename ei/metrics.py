@@ -33,6 +33,7 @@ class Metrics:
         alignment.align()
         a1, a2 = alignment.get_aligned_sequences()
         res = []
+        # NOTE: preposition and postposition of some morphemes - just check trans against gold.
         for x1, x2 in zip(a1,a2):
             res.append(((x1, x2), 1 if x1 == x2 else 0))
         score = [i[1] for i in res]

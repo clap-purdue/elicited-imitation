@@ -32,7 +32,15 @@ class JapaneseEI(Language):
         elif self.config.device is None:
             print("Using cpu")
 
-        
+    def switch_mecab(self, text:str):
+        if self.config.mecab == "Owakati":
+            return JapaneseUtils.mecab_tagger_owakati(text)
+        elif self.config.mecab == "Non-Owakati":
+            return JapaneseUtils.mecab_tagger(text)
+        else:
+            self.config.mecab is None
+            return JapaneseUtils.mecab_tagger_owakati(text)
+
     def read_custom_data(self) -> Dataset:
         """
         ei = ElicitedImitation(config)
@@ -49,14 +57,13 @@ class JapaneseEI(Language):
         hf_dataset = Dataset.from_pandas(dataset)
         return hf_dataset
     
-    @staticmethod
-    def mecab_processing(batch):
+    def mecab_processing(self, batch):
         """
         This method removes punctuation and processes text using MeCab tagger.
         """
         gold = JapaneseUtils.clean_text(batch['gold'])
         batch['gold'] = gold
-        batch["mecab_gold"] = JapaneseUtils.mecab_tagger(gold).strip()
+        batch["mecab_gold"] = self.switch_mecab(batch['gold']).strip()
         batch["mecab_gold_morphemes"] = batch["mecab_gold"].count(' ') 
         return batch
     
@@ -67,7 +74,7 @@ class JapaneseEI(Language):
             num_rows: 25
         })
             """
-        return self.read_custom_data().map(JapaneseEI.mecab_processing)
+        return self.read_custom_data().map(self.mecab_processing)
     
     def asr_transcriptions(self, batch):
         """
@@ -77,7 +84,7 @@ class JapaneseEI(Language):
         audio = batch['path']
         transcription = model.transcribe(audio).strip()
         transcription = JapaneseUtils.clean_text(transcription)
-        batch['student_transcript'] = JapaneseUtils.mecab_tagger(transcription).strip()
+        batch['student_transcript'] = self.switch_mecab(transcription).strip()
         batch["mecab_student_morphemes"] = batch['student_transcript'].count(' ') 
         return batch
     
