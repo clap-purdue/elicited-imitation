@@ -1,6 +1,6 @@
 # Contribution and Development
 
-- When developing inside the `elicited-imitation` repository, clone it and install the required packages under the `ei` package as follows:
+- When developing inside the `gricean-pragmatics` repository, clone it and install the required packages under the `gricean_pragmatics` package as follows:
 
 ## Installation (Conda):
 

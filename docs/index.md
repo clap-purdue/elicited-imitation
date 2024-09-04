@@ -1,15 +1,14 @@
-# Elicited Imitation
+# Gricean Pragmatics
 
-`Elicited Imitation (ei)` is a project for language assessment. `Elicited Imitation` is the process of presenting a stimulus sentence in an oral mode and asking the learner to repeat it.
-
+`gricean_pragmatics` is a project for evlauting LLM's pragmatic competence. 
 
 ### Languages:
 
 Supported languages include:
 
-1. Japanese
+1. English
 
 Future supported languages include:
 
 1. Arabic
-2. English
+2. Japanese

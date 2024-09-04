@@ -1,71 +1,16 @@
 # Tutorial
 
-**Prepare the dataset:**
-
-- The dataset should be one folder that contains the audio files and a csv file that has two columns `audio` and `transcript`. Of course, the csv file can contain any other columns, but the `audio` and `transcript` columns should be present.
-
-```bash
-data/
-   audio1.mp3
-   audio2.mp3
-   .
-   .
-   metadata.csv
-```
+This is an example tutorial. More will be added.
 
 ```python
-from ei.config import Config
-from ei.engine import ElicitedImitation
-from ei.utils import plot
-import pandas as pd
-import os
+from gricean_pragmatics import GPMetrics
+
+original_accuracy = 0.85  # 85% accuracy in original context
+changed_accuracy = 0.70   # 70% accuracy after subtle contextual changes
+
+# calculate Pragmatic Sensitivity Index (PSI)
+psi = GPMetrics.calculate_psi(original_accuracy, changed_accuracy)
+print(f"Pragmatic Sensitivity Index (PSI): {psi:.2f}")
+
 ```
 
-**Prepare the configuration:**
-
-- path to the audio dataset.
-- name of the `csv` file.
-- name of whisper checkpoint.
-- name of the language.
-- path to the output folder
-- name of the metric (needlemanwunsch, smithwaterman, editdistance)
-- mecab (Owakati or Non-Owakati)
-- device (cuda, cpu, mps)
-
-```python
-config = Config(
-   audio_data_path="~/Desktop/japanese", 
-   transcript_file="japanese-data.csv", 
-   asr_checkpoint="openai/whisper-large-v3", 
-   language="ja", 
-   save_dir="~/Desktop",
-   metric="needlemanwunsch",
-   mecab="Owakati",
-   device="cuda"
-   )
-```
-
-**Intialize the `ElicitedImitation` class:**
-
-```python
-x = ElicitedImitation(config)
-```
-
-**Get the results:**
-
-```python
-z = x.perform_elicited_imitation()
-```
-
-**Plot results:**
-
-```python
-plot(z, config.save_dir)
-```
-
-**Convert dataset to pandas dataframe and save to an excel file:**
-
-```python
-df = pd.DataFrame(z)
-df.to_excel(os.path.join(config.save_dir, "NAME.xlsx"))
-```

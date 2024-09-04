@@ -16,7 +16,7 @@ with open(os.path.join(os.path.dirname(__file__), "requirements.txt"), "r") as f
     print(required)
 
 # description
-description = "perform automatic elicited imitation"
+description = "evaluate LLM's pragmaic competence"
 
 # testing
 test_deps = required + ["green>=2.5.0", "coverage", "mypy"]
@@ -27,23 +27,23 @@ dev_deps = test_deps + [
 ]
 
 setup(
-    name="ei",
+    name="gricean_pragmatics",
     version="0.1",
-    author="elsayed-issa, yancong222, afukada, Ayaakaaa",
+    author="yancong222, elsayed-issa, afukada",
     description=description,
     #long_description=readme_description,
-    keywords=["elicited", "imitation", "ei", "speech", "japanese", "english"],
-    packages=["ei"],
+    keywords=["gricean", "pragmatics", "llms", "arabic", "japanese", "english"],
+    packages=["gricean_pragmatics"],
     install_requires=required,
     url="",
     license="MIT",
     scripts=[
-        os.path.join("bin", "ei-rest-api"),
-        os.path.join("bin", "ei-ui"),
+        os.path.join("bin", "gp-rest-api"),
+        os.path.join("bin", "gp-ui"),
     ],
     classifiers=[
         "Natural Language :: English :: Japanese",
-        "Topic :: Language/Acquisition :: Elicited Imitation",
+        "Topic :: LLMs :: Gricean Pragmatics",
     ],
     include_package_data=True,
     tests_require=test_deps,

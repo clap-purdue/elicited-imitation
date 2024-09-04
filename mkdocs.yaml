@@ -1,10 +1,10 @@
 # https://www.mkdocs.org/user-guide/writing-your-docs/
-site_name: elicited-imitation
-site_url: "https://clap-purdue.github.io/elicited-imitation/"
+site_name: gricean-pragmatics
+site_url: "https://clap-purdue.github.io/gricean-pragmatics/"
 site_description: Project documentation with Markdown.
 site_author: Elsayed Issa
 
-repo_url: https://github.com/clap-purdue/elicited-imitation
+repo_url: https://github.com/clap-purdue/gricean-pragmatics
 edit_uri: "blob/main/docs/"
 
 theme:
@@ -24,4 +24,4 @@ nav:
   - Contribution: contribution.md
 
 
-copyright: Copyright &copy; 2023 <a href="https://github.com/clap-purdue">Computational Linguistics @ Purdue </a>, Maintained by the <a href="/about/release-notes/#maintenance-team">MkDocs Team</a>.
+copyright: Copyright &copy; 2024 <a href="https://github.com/clap-purdue">Computational Linguistics @ Purdue </a>, Maintained by the <a href="/about/release-notes/#maintenance-team">MkDocs Team</a>.
