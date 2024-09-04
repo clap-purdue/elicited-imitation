@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Elsayed Issa" /><link rel="canonical" href="https://clap-purdue.github.io/gricean-pragmatics/documentation/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Documentation - gricean-pragmatics</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Documentation";
+        var mkdocs_page_input_path = "documentation.md";
+        var mkdocs_page_url = "/gricean-pragmatics/documentation/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> gricean-pragmatics
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Documentation</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorials</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../api/">API</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../contribution/">Contribution</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">gricean-pragmatics</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Documentation</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/clap-purdue/gricean-pragmatics/blob/main/docs/documentation.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <ul>
+<li>The <code>gricean_pragmatics</code> project includes several scripts, algorithms, and metrics to evaluating LLMs’ pragmatic competence in multilingual settings </li>
+</ul>
+<h2 id="naturalness">Naturalness:</h2>
+<p>Naturalness Metric Explanation:
+utterance_surprisal: The surprisal score for the given utterance.
+interpretation_a_surprisal: The surprisal score for interpretation (a) ("He is very smart").
+interpretation_b_surprisal: The surprisal score for interpretation (b) ("He is not smart at all").
+The function calculates the absolute difference in surprisal scores between the utterance and each interpretation.
+The output dictionary contains:
+difference_a: The difference between the utterance and interpretation (a).
+difference_b: The difference between the utterance and interpretation (b).
+preferred_interpretation: The interpretation with the smaller surprisal difference, 
+indicating the LLM’s preferred implied meaning.
+This function allows us to evaluate whether the LLMs show pragmatic sensitivity by comparing surprisal scores.</p>
+<h2 id="sensitivity-to-different-shades-of-meaning-ssm">Sensitivity to different Shades of Meaning (SSM):</h2>
+<p>SSM metric Explanation:
+- embedding_a: The embedding for the first sentence (e.g., "Alex was not unaware of the issue").
+- embedding_b: The embedding for the second sentence (e.g., "Alex was slightly aware of the issue").
+- embedding_c: The embedding for the third sentence (e.g., "Alex was aware of the issue").
+- The function computes cosine similarities between sentence pairs:
+   - similarity_ab: Similarity between sentence A and B.
+   - similarity_bc: Similarity between sentence B and C.
+- The function then ranks these similarities in descending order.
+- The output dictionary contains:
+   - similarity_ab: Cosine similarity between sentence A and B.
+   - similarity_bc: Cosine similarity between sentence B and C.
+   - ranking: The ranked list of similarities, indicating which sentence pair is more similar.</p>
+<h2 id="pragmatic-reasoning-chains-prc">Pragmatic Reasoning Chains (PRC):</h2>
+<p>PRC metrics explanation</p>
+<p>To evaluate the PRC metric, we define:</p>
+<ol>
+<li>Reasoning Step Prompts: These will be custom prompts based on formal reasoning steps that the LLM should follow.</li>
+<li>Expected Reasoning Steps: The correct reasoning steps according to formal pragmatics.</li>
+<li>
+<p>LLM Output Analysis: The comparison between the LLM's generated steps and the expected steps.</p>
+</li>
+<li>
+<p>LLM Responses: These are the reasoning steps generated by the LLM when probed with specific prompts.</p>
+</li>
+<li>Expected Steps: These represent the correct reasoning steps based on formal pragmatics (e.g., deriving "not all" from "some").</li>
+<li>Accuracy: The overall accuracy of the LLM’s responses is calculated as the proportion of correctly generated reasoning steps.</li>
+<li>Step Scores: This array represents the correctness of each individual step (1.0 for correct, 0.0 for incorrect).</li>
+</ol>
+<h3 id="additional-enhancements">Additional Enhancements:</h3>
+<ul>
+<li>Partial Matching: You could implement a more sophisticated comparison, allowing partial credit for reasoning steps that are conceptually correct but not exactly matching the expected step.</li>
+<li>Prompt Engineering: You can design prompts that explicitly probe each reasoning step, providing more granular control over the evaluation process.</li>
+<li>Multilingual Capability: By altering the <code>expected_steps</code> and <code>llm_responses</code> according to different languages, the function can evaluate PRC in a multilingual context.</li>
+</ul>
+<p>This approach allows us to systematically evaluate how well LLMs follow complex pragmatic reasoning processes, aligning with formal pragmatic frameworks.</p>
+<h2 id="implicature-recovery-rate-irr">Implicature Recovery Rate (IRR):</h2>
+<p>IRR metric Explanation:
+Explanation:
+successful_recoveries: The number of implicature errors that were successfully recovered by the LLM after introducing noise or ambiguity.
+total_errors: The total number of implicature errors introduced during the evaluation.
+The function calculates the IRR as the ratio of successful_recoveries to total_errors.
+The output is a floating-point number representing the IRR, 
+which can be interpreted as a percentage (e.g., 0.60 means 60% of implicatures were successfully recovered).
+This function allows us to 
+evaluate the robustness of LLMs in handling and resolving implicature-related ambiguities 
+by measuring how well they can recover from initial errors.</p>
+<h2 id="pragmatic-sensitivity-index-psi">Pragmatic Sensitivity Index (PSI):</h2>
+<p>PSI metric Explanation:
+original_accuracy: The accuracy of the LLM's responses when provided with the original context.
+changed_accuracy: The accuracy of the LLM's responses after subtle contextual changes, 
+such as scrambling nouns or replacing key words with nonsense words.
+The function calculates the PSI as the difference between original_accuracy and changed_accuracy.
+A higher PSI indicates greater sensitivity to contextual changes, 
+meaning the model's performance drops more when the context is altered.
+This function allows us to evaluate how well LLMs can adjust to subtle shifts in context, 
+reflecting their pragmatic sensitivity.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../installation/" class="btn btn-neutral float-left" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../tutorial/" class="btn btn-neutral float-right" title="Tutorials">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2024 <a href="https://github.com/clap-purdue">Computational Linguistics @ Purdue </a>, Maintained by the <a href="/about/release-notes/#maintenance-team">MkDocs Team</a>.</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/clap-purdue/gricean-pragmatics" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../installation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../tutorial/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
